@@ -14,7 +14,7 @@ import Parser
 print_result :: (String, Integer) -> IO ()
 print_result ("string", 1) = putStrLn "#t"
 print_result ("string", 0) = putStrLn "#f"
-print_result (a, val) = putStrLn $ (show val)
+print_result (_, val) = putStrLn $ (show val)
 
 main :: IO ()
 main = do 
