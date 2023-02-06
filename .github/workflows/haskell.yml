@@ -15,9 +15,6 @@ jobs:
       uses: actions/checkout@v2
     - name: update apt
       run: sudo apt-get update
-    - name: Install Stack
-      run: |
-        curl -sSL https://get.haskellstack.org/ | sh
     - name: Install ghc
       run: sudo apt-get install -y ghc
     - name: Install dependencies
@@ -32,9 +29,6 @@ jobs:
       uses: actions/checkout@v2
     - name: update apt
       run: sudo apt-get update
-    - name: Install Stack
-      run: |
-        curl -sSL https://get.haskellstack.org/ | sh
     - name: Install ghc
       run: sudo apt-get install -y ghc
     - name: Install dependencies
@@ -49,9 +43,6 @@ jobs:
       uses: actions/checkout@v2
     - name: update apt
       run: sudo apt-get update
-    - name: Install Stack
-      run: |
-        curl -sSL https://get.haskellstack.org/ | sh
     - name: Install ghc
       run: sudo apt-get install -y ghc
     - name: Install dependencies
@@ -70,9 +61,6 @@ jobs:
 
     - name: update apt
       run: sudo apt-get update
-    - name: Install Stack
-      run: |
-        curl -sSL https://get.haskellstack.org/ | sh
     - name: Install ghc
       run: sudo apt-get install -y ghc
     - name: Install dependencies
