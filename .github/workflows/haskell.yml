@@ -1,0 +1,114 @@
+name: Haskell Build and Test
+
+on:
+  push:
+    branches: 
+    - "*"
+    pull_request: "*"
+
+jobs:
+
+  run_re:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: update apt
+      run: sudo apt-get update
+    - name: Install Stack
+      run: |
+        curl -sSL https://get.haskellstack.org/ | sh
+    - name: Install ghc
+      run: sudo apt-get install -y ghc
+    - name: Install dependencies
+      run: stack --install-ghc build --dependencies-only
+    - name: Run make re
+      run: make re
+
+  run_tests:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: update apt
+      run: sudo apt-get update
+    - name: Install Stack
+      run: |
+        curl -sSL https://get.haskellstack.org/ | sh
+    - name: Install ghc
+      run: sudo apt-get install -y ghc
+    - name: Install dependencies
+      run: stack --install-ghc build --dependencies-only
+    - name: Run make tests
+      run: make tests
+
+  run_ftests:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: update apt
+      run: sudo apt-get update
+    - name: Install Stack
+      run: |
+        curl -sSL https://get.haskellstack.org/ | sh
+    - name: Install ghc
+      run: sudo apt-get install -y ghc
+    - name: Install dependencies
+      run: stack --install-ghc build --dependencies-only
+    - name: Run make ftests
+      run: make ftests
+
+
+  release_project:
+    name: Creating Release
+    runs-on: ubuntu-latest
+    needs: [run_re, run_tests, run_ftests]
+    if: github.ref == 'refs/heads/release'
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: update apt
+      run: sudo apt-get update
+    - name: Install Stack
+      run: |
+        curl -sSL https://get.haskellstack.org/ | sh
+    - name: Install ghc
+      run: sudo apt-get install -y ghc
+    - name: Install dependencies
+      run: stack --install-ghc build --dependencies-only
+    - name: Run make re
+      run: make re
+
+    - name: Create Release Folder
+      run: zip -r release.zip . -x ".git/*" ".github/*"
+    - name: View content
+      run: ls -R
+    - name: Create GitHub release
+      id: create-new-release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}
+    - name: View content
+      run: ls -lR
+    - name: Upload release asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+        asset_path: ./release.zip
+        asset_name: site-v${{ github.run_number }}.zip
+        asset_content_type: application/zip
+    - name: Upload release asset binary
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create-new-release.outputs.upload_url }}
+        asset_path: ./glados
+        asset_name: glados-v${{ github.run_number }}
+        asset_content_type: application/zip
