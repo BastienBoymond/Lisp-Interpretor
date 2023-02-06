@@ -4,7 +4,7 @@
 
 ## 📓 Description 📓
 
-A minimalist LISP interpreter. It's like a Chez-Scheme language
+A minimalist LISP interpreter. It's like a Chez-Scheme language made in Haskell with a Monadic Parser.
 
 ## 📦 Installer 📦
 
