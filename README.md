@@ -38,7 +38,7 @@ A minimalist LISP interpreter. It's like a Chez-Scheme language made in Haskell 
 * Define functions
 * Define variables
 
-Check the files `tests/scm` for more examples
+Check the files `tests/scm` for more examples Result are on `test/res`
 
 ## 🏷️ Team Project 🏷️
 
